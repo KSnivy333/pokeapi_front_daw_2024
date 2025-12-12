@@ -2,7 +2,7 @@ name: Deploy VUE.JS to Server # Nombre del Workflow
 
 on:
   push:
-    branches: ["test", "master"] # Se ejecuta al hacer push a estas ramas
+    branches: ["main", "master"] # Se ejecuta al hacer push a estas ramas
   
 jobs:
   deploy:
