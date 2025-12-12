@@ -1,0 +1,55 @@
+name: Deploy VUE.JS to Server # Nombre del Workflow
+
+on:
+  push:
+    branches: ["test", "master"] # Se ejecuta al hacer push a estas ramas
+  
+jobs:
+  deploy:
+    runs-on: ubuntu-latest # Entorno de ejecución
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4 # Clona el repositorio
+
+      # --- Configuración de Node.js ---
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Puedes ajustar la versión de Node.js aquí
+
+      - name: Install dependencies
+        run: npm install
+
+      # --- 🧪 PASO CLAVE: EJECUTAR TESTS UNITARIOS ---
+      - name: Run Unit Tests (Vitest)
+        # Esto asume que tienes "test": "vitest run" en tu package.json
+        # El flujo fallará si algún test unitario no pasa.
+        run: npm run test 
+        
+      # --- Build y Compilación ---
+      - name: Build Vue Project (Genera la carpeta 'dist')
+        run: npm run build 
+
+      # --- Configuración de SSH para Despliegue ---
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          # Limpiamos la clave SSH de posibles caracteres '\r' y la guardamos
+          echo "${{ secrets.SSH_KEY }}" | tr -d '\r' > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          
+          # SOLUCIÓN: Usamos espacios normales y tabulaciones para asegurar el formato SSH
+          echo "Host *" > ~/.ssh/config
+          echo "    StrictHostKeyChecking no" >> ~/.ssh/config # Nótese el uso de '    ' (4 espacios)
+          echo "    IdentitiesOnly yes" >> ~/.ssh/config # Y '>>' para agregar líneas
+          
+          chmod 600 ~/.ssh/config
+      # --- Despliegue SCP ---
+      - name: Deploy compiled files via SCP
+        run: |
+          # 1. Limpia el contenido del directorio remoto.
+          ssh -i ~/.ssh/id_ed25519 ${{ secrets.USERNAME }}@${{ secrets.HOST }} "rm -rf /var/www/alumnos/${{ secrets.USERNAME }}/*"
+          
+          # 2. Copia SOLAMENTE el contenido de la carpeta 'dist/' al destino.
+          scp -r ./dist/* ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/var/www/alumnos/${{ secrets.USERNAME }}/

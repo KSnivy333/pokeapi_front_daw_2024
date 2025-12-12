@@ -1,7 +1,7 @@
 <template>
   <header>
     <div class="title-container">
-      <img src="/img/title.png" alt="Pokédex" />
+      <img src="/img/title.png" alt="Pokédex Odio VUE" />
     </div>
   </header>
   <RouterView />
