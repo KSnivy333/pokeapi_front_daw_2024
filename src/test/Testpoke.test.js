@@ -296,7 +296,7 @@ describe('PokemonDetail', () => {
 			if (s.endsWith('/pokemon/1')) {
 				return Promise.resolve({ json: () => Promise.resolve({
 					id: 1,
-					name: 'bulbasaur',
+					name: '123',
 					sprites: {
 						front_default: 'http://img.local/front.png',
 						back_default: 'http://img.local/back.png',
