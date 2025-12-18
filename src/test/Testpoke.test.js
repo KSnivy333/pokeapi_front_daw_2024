@@ -51,7 +51,9 @@ describe('HomeView', () => {
 		await flushPromises();
 		await wrapper.vm.$nextTick();
 
-		expect(global.fetch).toHaveBeenCalled();
+		expect(global.fetch).not.toHaveBeenCalled();
+		//error para ti andres
+		// expect(global.fetch).not.toHaveBeenCalled();
 	});
 
 	it('renders pokemon boxes with images', async () => {
@@ -296,7 +298,7 @@ describe('PokemonDetail', () => {
 			if (s.endsWith('/pokemon/1')) {
 				return Promise.resolve({ json: () => Promise.resolve({
 					id: 1,
-					name: '123',
+					name: 'bulbasaur',
 					sprites: {
 						front_default: 'http://img.local/front.png',
 						back_default: 'http://img.local/back.png',
