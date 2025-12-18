@@ -39,7 +39,7 @@ describe('HomeView', () => {
 		// Verifica que se hace la llamada a la API para obtener la lista de pokemons
 		global.fetch.mockImplementation((url) => {
 			if (String(url).includes('?offset')) {
-				return Promise.resolve({ json: () => Promise.resolve({ results: [ { name: 'bulbasaur', url: 'https://pokeapi.co/api/v2/pokemon/1/' } ] }) });
+				return Promise.resolve({ json: () => Promise.resolve({ results: [ { name: 'bulbasaur', url: 'https://pokeapi.co/api/v2/pokemon/2/' } ] }) });
 			}
 			if (String(url).includes('/pokemon/1')) {
 				return Promise.resolve({ json: () => Promise.resolve({ sprites: { front_default: 'http://img.local/bulbasaur.png' } }) });
