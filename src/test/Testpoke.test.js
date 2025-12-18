@@ -51,7 +51,7 @@ describe('HomeView', () => {
 		await flushPromises();
 		await wrapper.vm.$nextTick();
 
-		expect(global.fetch).not.toHaveBeenCalled();
+		expect(global.fetch).toHaveBeenCalled();
 		//error para ti andres
 		// expect(global.fetch).not.toHaveBeenCalled();
 	});
