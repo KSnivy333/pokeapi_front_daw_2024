@@ -36,8 +36,8 @@ describe('HomeView', () => {
         return Promise.resolve({
           json: () => Promise.resolve({
             results: [
-              // IMPORTANTE: este url DEBE SER /pokemon/1/ para que pasen los tests
-              { name: 'bulbasaur', url: 'https://pokeapi.co/api/v2/pokemon/2/' }
+              
+              { name: 'bulbasaur', url: 'https://pokeapi.co/api/v2/pokemon/1/' }
             ]
           })
         });
